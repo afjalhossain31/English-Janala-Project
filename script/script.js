@@ -1,13 +1,16 @@
+// create element for synonym / synonym handle
 const createElements = (arr) => {
   const htmlElements = arr.map((el) => `<span class="btn">${el}</span>`);
   return htmlElements.join(" ");
 };
+
 function pronounceWord(word) {
   const utterance = new SpeechSynthesisUtterance(word);
   utterance.lang = "en-EN"; // English
   window.speechSynthesis.speak(utterance);
 }
 
+// manage spinner / loading
 const manageSpinner = (status) => {
   if (status == true) {
     document.getElementById("spinner").classList.remove("hidden");
@@ -18,18 +21,21 @@ const manageSpinner = (status) => {
   }
 };
 
+// load all lessons / level
 const loadLessons = () => {
   fetch("https://openapi.programming-hero.com/api/levels/all") // promise of response
     .then((res) => res.json()) // promise of json data
     .then((json) => displayLesson(json.data));
 };
 
+// remove active class from all buttons
 const removeActive = () => {
   const lessonButtons = document.querySelectorAll(".lesson-btn");
   //   console.log(lessonButtons);
   lessonButtons.forEach((btn) => btn.classList.remove("active"));
 };
 
+// load words by level
 const loadLevelWord = (id) => {
   manageSpinner(true);
 
@@ -184,6 +190,8 @@ const displayLesson = (lessons) => {
 
 loadLessons();
 
+
+// btn event listener
 document.getElementById("btn-search").addEventListener("click", () => {
   removeActive();
   const input = document.getElementById("input-search");
